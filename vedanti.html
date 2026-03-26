@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff5f7;
+            overflow: hidden;
+            /* Prevents scrollbars from the falling hearts */
+            text-align: center;
+            transition: background-color 1s ease;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            /* Keeps text above the falling hearts */
+        }
+
+        #revealButton {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.4rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            transition: transform 0.3s;
+        }
+
+        #revealButton:hover {
+            transform: scale(1.1);
+        }
+
+        #secretMessage {
+            display: none;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .main-heart {
+            font-size: 120px;
+            filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.5));
+        }
+
+        /* The Animation for the Falling Hearts */
+        .falling-heart {
+            position: fixed;
+            top: -10%;
+            font-size: 20px;
+            color: #ff4d6d;
+            user-select: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #590d22;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="startScreen">
+            <h1>Ready for a smile?</h1>
+            <button id="revealButton" onclick="showLove()">Click Me!</button>
+        </div>
+
+        <div id="secretMessage">
+            <div class="main-heart">❤️</div>
+            <h1>Lots of Love!</h1>
+            <p>Hey...I know today was heavy.You don't have to carry everything right now - just pause,breathe,and take
+                it easy.I'm here for you.🤍</p>
+        </div>
+    </div>
+
+    <script>
+        function showLove() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('secretMessage').style.display = 'block';
+            document.body.style.backgroundColor = "#ffccd5";
+
+            // Start creating falling hearts every 300ms
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('falling-heart');
+            heart.innerHTML = '❤️';
+
+            // Randomize position and speed
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s"; // Between 2-5 seconds
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = Math.random() * 20 + 10 + "px";
+
+            document.body.appendChild(heart);
+
+            // Remove heart after it falls to keep the page fast
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+
+</body>
+
+</html>
